@@ -1,0 +1,6 @@
+#!/bin/bash
+#Gets IP addresses for currently running machines in VirtualBox, requires guest tools to be installed
+for f in $(VBoxManage list runningvms | awk -F\" '{print $2}'); do
+    ipaddr=$(VBoxManage guestproperty enumerate "$f" | grep IP | awk 'BEGIN { FS=","; } {print $2}'| awk 'BEGIN { FS=":"; } {print $2}')
+    echo "$f:$ipaddr"
+done
